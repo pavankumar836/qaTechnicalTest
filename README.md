@@ -1,7 +1,7 @@
 # qaTechnicalTest
 
-#Pre-Requisities
+# Pre-Requisities
 
-#Steps to run the tests
+# Steps to run the tests
 
-#Issues Identified
+# Issues Identified
