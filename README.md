@@ -23,6 +23,3 @@
 1. Post and Put requests  don't return the response body
 2. Duplicate products are acceptable
 
-# Test Summary
-
-# Bug Summary
