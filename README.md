@@ -1,7 +1,7 @@
 
 # Pre Condition
-1 Download the source code folder from the github url:
-2 Download the Maven from https://maven.apache.org/download.cgi and extract it
+1. Download the source code folder from the github url: https://github.com/pavankumar836/qaTechnicalTest
+2. Download the Maven from https://maven.apache.org/download.cgi and extract it
 3. System installed with Java 17
 
 # Setup
@@ -15,6 +15,13 @@
 3. Browse to the the github url :    and download the source code files
 4. Open the command line window and browse to the source code folder and run the below command
    mvn -Dtest=ProductTests test
-3. Maven will run the tests present in the ProductTests class and displayed the results
-5. Results will be displayed on the command line
+5. Maven will run the tests present in the ProductTests class and displayed the results
+6. Results will be displayed on the command line
 
+
+# Tested based on the following Assumptions
+1. The max price field length is 16
+2. Post requests don't return the response body
+3. Duplicate and null product name values are accepted
+
+# Limitations

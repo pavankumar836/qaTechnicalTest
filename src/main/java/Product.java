@@ -4,6 +4,7 @@ import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import org.hamcrest.Matchers;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,10 +13,10 @@ import static org.hamcrest.Matchers.equalTo;
 public class Product {
     public static Integer productId;
     String name;
-    Double price;
+    BigDecimal price;
     Integer id;
 
-    Product(String name, Double price) {
+    Product(String name, BigDecimal price) {
         this.name = name;
         this.price = price;
     }
@@ -29,8 +30,7 @@ public class Product {
     }
 
 
-    Product createProduct(String name, Double price, Integer expectedStatusCode) {
-
+    Product createProduct(String name, BigDecimal price, Integer expectedStatusCode) {
         productId = getLastItem() + 1;
         String requestPayLoad = new Gson().toJson(new Product(name, price));
         RestAssured.given()
@@ -42,7 +42,7 @@ public class Product {
         return this;
     }
 
-    Product updateExistingProduct(Integer recordId, String name, Double price, Integer expectedStatusCode) {
+    Product updateExistingProduct(Integer recordId, String name, BigDecimal price, Integer expectedStatusCode) {
         String payLoad = new Gson().toJson(new Product(name, price));
         RestAssured.given()
                 .contentType(ContentType.JSON)
@@ -50,28 +50,18 @@ public class Product {
                 .put("/product/" + recordId)
                 .then()
                 .statusCode(expectedStatusCode);
-
         return this;
     }
 
 
-    Product validateRecord(Integer id, String name, Double price) {
+    Product validateRecord(Integer id, String name, BigDecimal price) {
 
-        JsonPath response= RestAssured.given()
+        JsonPath response = RestAssured.given()
                 .when().get("/product/" + id)
                 .getBody().jsonPath();
-        Product product= ConvertJsonPathToProduct(response);
+        Product product = ConvertJsonPathToProduct(response);
         assertThat(product.price, equalTo(price));
         assertThat(product.name, equalTo(name));
-        return this;
-    }
-
-    public Product verifyCreatedProduct(String name, float price, Integer productId) {
-
-        RestAssured.given()
-                .when().get("/product/" + productId)
-                .then().statusCode(200)
-                .body("name", equalTo(name)).body("price", equalTo(String.valueOf(price)));
         return this;
     }
 
@@ -103,11 +93,11 @@ public class Product {
         return ConvertJsonPathToProduct(itemDetails);
     }
 
-    public Product ConvertJsonPathToProduct(JsonPath itemDetails) {
-        Product productDetails = new Product();
-        productDetails.name = itemDetails.get("name");
-        productDetails.id = Integer.valueOf((Integer) itemDetails.get("id"));
-        productDetails.price = Double.valueOf(itemDetails.get("price").toString());
+     Product ConvertJsonPathToProduct(JsonPath itemDetails) {
+         Product productDetails = new Product();
+         productDetails.name = itemDetails.get("name");
+         productDetails.id = Integer.valueOf((Integer) itemDetails.get("id"));
+         productDetails.price = new BigDecimal(itemDetails.get("price").toString());
         return productDetails;
     }
 }

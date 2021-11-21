@@ -1,8 +1,6 @@
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 
-
-
 import java.math.BigDecimal;
 
 
@@ -10,73 +8,75 @@ public class ProductTests extends ProjectTestBase {
 
     @Test
     public void createNewProductAndValidateResponse() {
-
+       Product product = new Product("item1", new BigDecimal("12.55"));
         Product.product()
-                .createProduct("item1",12.55,204)
-                .validateRecord(Product.productId,"item1",12.55);
+                .createProduct(product.name, product.price, 204)
+                .validateRecord(Product.productId, product.name, product.price);
     }
-    @Test
-    public  void deleteExistingProductAndVerify() {
 
+    @Test
+    public void deleteExistingProductAndVerify() {
+        Product product = new Product("item1", new BigDecimal("12.56"));
         Product.product()
-                .createProduct("item1",12.55,204)
+                .createProduct(product.name, product.price, 204)
                 .verifyProductDelete();
     }
 
     @Test
-    public  void updateExistingProductAndValidate() {
+    public void updateExistingProductAndValidate() {
 
         Product existingRecord = Product.product().GetLastItemDetails();
+        Product product = new Product("item2", new BigDecimal("12.29"));
         Product.product()
-                .createProduct(existingRecord.name,existingRecord.price,204)
-                .updateExistingProduct(Product.productId,"item2",12.29,204)
-                .validateRecord(Product.productId,"item2",12.29);
+                .createProduct(existingRecord.name, existingRecord.price, 204)
+                .updateExistingProduct(Product.productId, product.name, product.price, 204)
+                .validateRecord(Product.productId, product.name, product.price);
     }
 
     @Test
-    public  void createNewProductWithExistingProductDetails() {
+    public void createNewProductWithExistingProductDetails() {
 
         Product existingRecord = Product.product().GetLastItemDetails();
         Product.product()
-                .createProduct(existingRecord.name,existingRecord.price,204)
-                .validateRecord(existingRecord.id+1,existingRecord.name,existingRecord.price);
+                .createProduct(existingRecord.name, existingRecord.price, 204)
+                .validateRecord(existingRecord.id + 1, existingRecord.name, existingRecord.price);
     }
 
     @Test
     public void createNewProductWithDifferentNameAndSamePrice() {
         Product existingRecord = Product.product().GetLastItemDetails();
         Product.product()
-                .createProduct("differentName",existingRecord.price,204)
-                .validateRecord(Product.productId,"differentName",existingRecord.price);
+                .createProduct("differentName", existingRecord.price, 204)
+                .validateRecord(Product.productId, "differentName", existingRecord.price);
 
     }
-    @Test
-    public  void createNewProductWithoutNameAndWithNegativePrice() {
 
+    @Test
+    public void createNewProductWithoutNameAndWithNegativePrice() {
+        Product product = new Product("", new BigDecimal("-0.88"));
         Product.product()
-                .createProduct("",-0.88,204)
-                .validateRecord(Product.productId,"",-0.88);
+                .createProduct(product.name, product.price, 204)
+                .validateRecord(Product.productId, product.name, product.price);
 
     }
 
     @Test
-    public void createNewProductNameWithLongLength(){
+    public void createNewProductNameWithLongLength() {
         String name = RandomStringUtils.random(600, true, true);
-
+        Product product = new Product(name, new BigDecimal("6565.88"));
         Product.product()
-                .createProduct(name,6565.88,204)
-                .validateRecord(Product.productId,name,6565.88);
+                .createProduct(product.name, product.price, 204)
+                .validateRecord(Product.productId, name, product.price);
     }
 
 
     @Test
-    public void createNewProductPriceWithLongLength(){
+    public void createNewProductPriceWithLongLength() {
 
-        Double price =23456789234567892345678923456789.00;
-
+        BigDecimal price = new BigDecimal("23456789234567892345678923456789.00");
         Product.product()
-                .createProduct("item",price,204)
-                .validateRecord(Product.productId,"item",price);
+                .createProduct("item", price, 204)
+                .validateRecord(Product.productId, "item", price);
     }
 
 }
