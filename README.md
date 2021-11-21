@@ -14,7 +14,10 @@
 2. Maven will download the dependency libraries mentioned in the pom.xml file from the maven repository.
 3. Browse to the the github url :    and download the source code files
 4. Open the command line window and browse to the source code folder and run the below command
-   mvn -Dtest=ProductTests test
+```  
+mvn -Dtest=ProductTests test
+
+ ```
 5. Maven will run the tests present in the ProductTests class and displayed the results
 6. Results will be displayed on the command line
 
